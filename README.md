@@ -1,1 +1,1 @@
-Building a Rock Paper Scissors application in JavaScript.
+Building a Rock Paper Scissors application in JavaScript (just console log).
