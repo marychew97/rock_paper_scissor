@@ -1,3 +1,9 @@
+let container = document.querySelector('.cont');
+
+let winOrLose = document.createElement('h3');
+winOrLose.textContent = "";
+container.appendChild(winOrLose);
+
 function computerPlay(){
     let sets = ["rock", "paper", "scissors"];
     let random = Math.floor(Math.random() * 3);
@@ -45,31 +51,34 @@ function playRound(playerSelection, computerSelection){
     return result;
 }
 
-function game(){
+function game(tool){
     //var result = false;
     let user_score = 0;
     let computer_score = 0;
     let message = "";
-    
-    for (var i=1; i<=5; i++){
-        let playerSelection = prompt("Rock, Paper, or Scissors?").toLowerCase();
-        let computerSelection = computerPlay();
-        result = playRound(playerSelection, computerSelection);
-        console.log("Round " + i + ": " + result);
+    let final = document.getElementById('output');
 
-        if(result.includes("win")){
-            user_score += 1;
-        } else{
-            computer_score += 1;
-        }
+    let playerSelection = tool.id;
+    let computerSelection = computerPlay();
+    winOrLose.textContent = playRound(playerSelection, computerSelection);
 
-        if(user_score > computer_score){
-            message = "Congratulations! You win the game!";
-        } else{
-            message = "You lose. Please try again.";
-        }  
+    if (winOrLose.textContent.includes("win")) {
+        user_score += 1;
+    } else {
+        computer_score += 1;
     }
-    console.log("Your score: " + user_score + "\nComputer score: " + computer_score + "\n" + message);
+
+    if (user_score > computer_score) {
+        message = "Congratulations! You win the game!";
+    } else {
+        message = "You lose. Please try again.";
+    }
+
+    final.innerHTML = "Your score: " + user_score + "\nComputer score: " + computer_score + "\n" + message;
 }
 
-game();
+const btnTools = document.querySelectorAll('.button');
+
+btnTools.forEach(tool => tool.addEventListener('click', function(){
+    game(tool);
+}));
