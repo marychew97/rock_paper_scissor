@@ -1,0 +1,41 @@
+body{
+    text-align: center;
+    margin: 20px;
+    border: 10px solid black;
+}
+
+.cont{
+    display: flex;
+}
+
+/*Round buttons with images fit in*/
+.button{
+    border-radius: 50%; 
+    height: 20vw;
+    width: 20vw;
+    overflow: hidden;
+    border: none;
+    margin: 20px;
+    cursor: pointer;
+}
+
+/*remove outline of the button when being clicked*/
+.button:focus{
+    outline: 0;
+}
+
+.button img{
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+
+.scoreDis{
+    display:flex;
+    flex-direction: row;
+}
+
+.userScore, .compScore{
+    padding: 10px;
+    margin: 10px;
+}

@@ -1,8 +1,33 @@
-let container = document.querySelector('.cont');
+let output = document.querySelector('#output');
 
 let winOrLose = document.createElement('h3');
 winOrLose.textContent = "";
-container.appendChild(winOrLose);
+output.appendChild(winOrLose);
+
+let scoreDis = document.createElement('div');
+scoreDis.classList.add('scoreDis');
+
+let userScoreDis = document.createElement('h2');
+userScoreDis.textContent = 0;
+userScoreDis.classList.add('userScore');
+scoreDis.appendChild(userScoreDis);
+
+let compScoreDis = document.createElement('h2');
+compScoreDis.textContent = 0;
+compScoreDis.classList.add('compScore');
+scoreDis.appendChild(compScoreDis);
+
+output.appendChild(scoreDis);
+
+let resultMess = document.createElement('h1');
+resultMess.textContent = "";
+output.appendChild(resultMess);
+
+let resetDiv = document.createElement('div');
+output.appendChild(resetDiv);
+
+let user_score = 0;
+let computer_score = 0;
 
 function computerPlay(){
     let sets = ["rock", "paper", "scissors"];
@@ -11,70 +36,86 @@ function computerPlay(){
 }
 
 function playRound(playerSelection, computerSelection){
-    var result = "";
     var draw = "Draw! None of you lose";
     switch(computerSelection){
         case "rock":
             if(playerSelection == "scissors"){
-                result = "You lose! Rock beats Scissors";
+                winOrLose.textContent = "You lose! Rock beats Scissors";
+                computer_score += 1;
+                return computer_score;
             } else if(playerSelection == "paper"){
-                result = "You win! Paper beats Rock";
+                winOrLose.textContent = "You win! Paper beats Rock";
+                user_score += 1;
+                return user_score;
             } else if (computerSelection == playerSelection) {
-                result = draw;
-            } else{
-                result = "Invalid! Try again";
-            }
+                winOrLose.textContent = draw;
+            } 
             break;
         case "paper":
             if(playerSelection == "rock"){
-                result = "You lose! Paper beats Rock";
+                winOrLose.textContent = "You lose! Paper beats Rock";
+                computer_score += 1;
+                return computer_score;
             } else if(playerSelection == "scissors"){
-                result = "You win! Scissors beats Paper";
+                winOrLose.textContent = "You win! Scissors beats Paper";
+                user_score += 1;
+                return user_score;
             } else if (computerSelection == playerSelection) {
-                result = draw;
-            } else{
-                result = "Invalid! Try again";
+                winOrLose.textContent = draw;
             }
             break;
         case "scissors":
             if(playerSelection == "rock"){
-                result = "You win! Rock beats Scissors";
+                winOrLose.textContent = "You win! Rock beats Scissors";
+                user_score += 1;
+                return user_score;
             } else if(playerSelection == "paper"){
-                result = "You lose! Scissors beats Paper";
+                winOrLose.textContent = "You lose! Scissors beats Paper";
+                computer_score += 1;
+                return computer_score;
             } else if (computerSelection == playerSelection) {
-                result = draw;
-            } else{
-                result = "Invalid! Try again";
+                winOrLose.textContent = draw;
             }
             break;
     }
-    return result;
+}
+
+function resetGame(){
+    let resetBtn = document.createElement('button');
+    resetBtn.textContent = "Play Again";
+    resetDiv.appendChild(resetBtn);
+    resetBtn.addEventListener('click', () => {
+        userScoreDis.textContent = 0;
+        compScoreDis.textContent = 0;
+        user_score = 0;
+        computer_score = 0;
+        winOrLose.textContent = "";
+        resultMess.textContent = "";
+        resetDiv.removeChild(resetBtn);
+    }); 
 }
 
 function game(tool){
-    //var result = false;
-    let user_score = 0;
-    let computer_score = 0;
     let message = "";
-    let final = document.getElementById('output');
 
     let playerSelection = tool.id;
     let computerSelection = computerPlay();
-    winOrLose.textContent = playRound(playerSelection, computerSelection);
+    playRound(playerSelection, computerSelection);
 
-    if (winOrLose.textContent.includes("win")) {
-        user_score += 1;
-    } else {
-        computer_score += 1;
+    userScoreDis.textContent = user_score;
+    compScoreDis.textContent = computer_score;
+
+    if(user_score + computer_score >= 5){
+        if (user_score > computer_score) {
+            message = "Congratulations! You win the game!";
+            resetGame();
+        } else {
+            message = "You lose. Please try again.";
+            resetGame();
+        }
     }
-
-    if (user_score > computer_score) {
-        message = "Congratulations! You win the game!";
-    } else {
-        message = "You lose. Please try again.";
-    }
-
-    final.innerHTML = "Your score: " + user_score + "\nComputer score: " + computer_score + "\n" + message;
+    
+    resultMess.textContent = message;
 }
 
 const btnTools = document.querySelectorAll('.button');
