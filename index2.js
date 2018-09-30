@@ -5,21 +5,30 @@ winOrLose.textContent = "";
 output.appendChild(winOrLose);
 
 let scoreDis = document.createElement('div');
-scoreDis.classList.add('scoreDis');
 
-let userScoreDis = document.createElement('h2');
+let userScorePara = document.createElement('h3');
+userScorePara.textContent = "Your score: ";
+userScorePara.classList.add('userScorePara');
+scoreDis.appendChild(userScorePara);
+
+let userScoreDis = document.createElement('h3');
 userScoreDis.textContent = 0;
 userScoreDis.classList.add('userScore');
 scoreDis.appendChild(userScoreDis);
 
-let compScoreDis = document.createElement('h2');
+let compScorePara = document.createElement('h3');
+compScorePara.textContent = "Computer's score: ";
+compScorePara.classList.add('compScorePara');
+scoreDis.appendChild(compScorePara);
+
+let compScoreDis = document.createElement('h3');
 compScoreDis.textContent = 0;
 compScoreDis.classList.add('compScore');
 scoreDis.appendChild(compScoreDis);
 
 output.appendChild(scoreDis);
 
-let resultMess = document.createElement('h1');
+let resultMess = document.createElement('h2');
 resultMess.textContent = "";
 output.appendChild(resultMess);
 
@@ -80,9 +89,10 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
-function resetGame(){
+function resetGame(scissor, rock, paper){
     let resetBtn = document.createElement('button');
     resetBtn.textContent = "Play Again";
+    resetBtn.classList.add('resetBtn');
     resetDiv.appendChild(resetBtn);
     resetBtn.addEventListener('click', () => {
         userScoreDis.textContent = 0;
@@ -91,12 +101,26 @@ function resetGame(){
         computer_score = 0;
         winOrLose.textContent = "";
         resultMess.textContent = "";
+        scissor.disabled = false;
+        rock.disabled = false;
+        paper.disabled = false;
         resetDiv.removeChild(resetBtn);
     }); 
 }
 
+function disableBtn(scissor, rock, paper){
+    scissor.disabled = true;
+    rock.disabled = true;
+    paper.disabled = true;
+    resetGame(scissor, rock, paper);
+}
+
 function game(tool){
     let message = "";
+
+    let scissor = document.querySelector('#scissors');
+    let rock = document.querySelector('#rock');
+    let paper = document.querySelector('#paper');
 
     let playerSelection = tool.id;
     let computerSelection = computerPlay();
@@ -108,10 +132,10 @@ function game(tool){
     if(user_score + computer_score >= 5){
         if (user_score > computer_score) {
             message = "Congratulations! You win the game!";
-            resetGame();
+            disableBtn(scissor, rock, paper);
         } else {
             message = "You lose. Please try again.";
-            resetGame();
+            disableBtn(scissor, rock, paper);
         }
     }
     
